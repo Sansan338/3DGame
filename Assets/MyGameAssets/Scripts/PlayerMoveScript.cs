@@ -10,11 +10,17 @@ public class PlayerMoveScript : MonoBehaviour
     Animator playerAnimator;
 
     private float moveSpeed;
+
+    [SerializeField]
+    private float jumpPower;
     [SerializeField]
     private float walkSpeed;
     [SerializeField]
     private float sprintSpeed;
+
     private Vector3 moveDirection;
+
+    private bool isGround;
 
     private float animSpeed = 1.0f;
 
@@ -29,9 +35,10 @@ public class PlayerMoveScript : MonoBehaviour
     void Update()
     {
         //移動キー入力の取得
-        float MoveX = Input.GetAxis("Horizontal");
-        float MoveZ = Input.GetAxis("Vertical");
+        float MoveX = Input.GetAxis("Horizontal") * Time.deltaTime;
+        float MoveZ = Input.GetAxis("Vertical") * Time.deltaTime;
 
+        //移動速度確認
         if(MoveX != 0 || MoveZ != 0)
         {
             moveSpeed = walkSpeed;
@@ -56,10 +63,32 @@ public class PlayerMoveScript : MonoBehaviour
         //移動
         playerRigidbody.AddRelativeForce(moveDirection * moveSpeed);
 
+        if (Input.GetKeyDown(KeyCode.Space) && isGround == true)
+        {
+            playerRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            playerAnimator.SetBool("isJump",true);
+        }
+
         float MouseX = Input.GetAxis("Mouse X");
         if(Mathf.Abs(MouseX) > 0.001f)
         {
             transform.RotateAround(transform.position, Vector3.up, MouseX);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            playerAnimator.SetBool("isJump", false);
+            isGround = true;
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            isGround = false;
         }
     }
 }
