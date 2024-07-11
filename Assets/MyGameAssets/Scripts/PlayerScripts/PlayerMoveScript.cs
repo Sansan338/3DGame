@@ -17,6 +17,8 @@ public class PlayerMoveScript : MonoBehaviour
     private float walkSpeed;
     [SerializeField]
     private float sprintSpeed;
+    [SerializeField]
+    private float backMagnification;
 
     private Vector3 moveDirection;
 
@@ -32,19 +34,26 @@ public class PlayerMoveScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         //移動キー入力の取得
         float MoveX = Input.GetAxis("Horizontal") * Time.deltaTime;
         float MoveZ = Input.GetAxis("Vertical") * Time.deltaTime;
 
         //移動速度確認
-        if(MoveX != 0 || MoveZ != 0)
+        if (MoveX != 0 || MoveZ != 0)
         {
             moveSpeed = walkSpeed;
+            //Shiftを押していたらダッシュ
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 moveSpeed = sprintSpeed;
+            }
+
+            //後ろ向き移動減速補正
+            if(Input.GetKey(KeyCode.S))
+            {
+                moveSpeed *= backMagnification;
             }
         }
         else
@@ -52,16 +61,19 @@ public class PlayerMoveScript : MonoBehaviour
             moveSpeed = 0.0f;
         }
 
-        //移動速度によってアニメーションを変更
-        playerAnimator.SetFloat("Speed", moveSpeed);
-        playerAnimator.speed = animSpeed;
-
         //進行方向
         moveDirection = new Vector3(MoveX, 0, MoveZ);
         //正規化
         moveDirection.Normalize();
         //移動
         playerRigidbody.AddRelativeForce(moveDirection * moveSpeed);
+    }
+
+    void Update()
+    {
+        //移動速度によってアニメーションを変更
+        playerAnimator.SetFloat("Speed", moveSpeed);
+        playerAnimator.speed = animSpeed; 
 
         if (Input.GetKeyDown(KeyCode.Space) && isGround == true)
         {

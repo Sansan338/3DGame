@@ -6,19 +6,24 @@ using UnityEngine.AI;
 public class CheckMonsterActionScript : MonoBehaviour
 {
     [SerializeField]
-    private NavMeshAgent Monster;
+    private NavMeshAgent monster;
     [SerializeField]
-    private GameObject Target;
+    private GameObject target;
     [SerializeField]
-    private Animator MonsterAnimator;
+    private Animator monsterAnimator;
     [SerializeField]
-    private float distance;
     private float discoveryRange = 6.0f;
+    [SerializeField]
+    private float chaseSpeed;
 
+    private float distance;
 
+    [SerializeField]
     private int FloorXSize;
     [SerializeField]
     private int FloorZSize;
+    [SerializeField]
+    private float patrolSpeed;
 
     Vector3 randomPosition;
 
@@ -60,26 +65,25 @@ public class CheckMonsterActionScript : MonoBehaviour
             distance = 0;
             SearchPlayerScript.IsDiscovery = false;
         }
-
-        Debug.Log(distance);
-        Debug.Log(actionType);
     }
 
     void Patrol()
     {
-        if (Monster.remainingDistance < 0.5f)
+        if (monster.remainingDistance < 0.5f)
         {
+            monster.speed = patrolSpeed;
             randomPosition = new Vector3(Random.Range(-FloorXSize, FloorXSize), 0,
                 Random.Range(-FloorZSize, FloorZSize));
-            Monster.destination = randomPosition;
+            monster.destination = randomPosition;
         }
     }
 
     void Chase()
     {
+        monster.speed = chaseSpeed;
         // ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£
-        distance = Vector3.Distance(transform.position, Target.transform.position);
-        Monster.destination = Target.transform.position;
-        MonsterAnimator.SetFloat("Speed", Monster.velocity.sqrMagnitude);
+        distance = Vector3.Distance(transform.position, target.transform.position);
+        monster.destination = target.transform.position;
+        monsterAnimator.SetFloat("Speed", monster.velocity.sqrMagnitude);
     }
 }

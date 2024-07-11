@@ -337,7 +337,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 1.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -361,11 +361,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d11cda9a1e9384db8787c4bec2d331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Monster: {fileID: 545821010}
-  Target: {fileID: 1634775763}
-  MonsterAnimator: {fileID: 545821005}
-  distance: 0
+  monster: {fileID: 545821010}
+  target: {fileID: 1634775763}
+  monsterAnimator: {fileID: 545821005}
+  discoveryRange: 8
+  chaseSpeed: 3
+  FloorXSize: 25
   FloorZSize: 25
+  patrolSpeed: 0.6
 --- !u!135 &545821013
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1078,7 +1081,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5351497740255465212, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
       propertyPath: jumpPower
-      value: 200
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 5351497740255465212, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
       propertyPath: m_Enabled
@@ -1086,11 +1089,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5351497740255465212, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
       propertyPath: walkSpeed
-      value: 400
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 5351497740255465212, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
       propertyPath: sprintSpeed
-      value: 600
+      value: 1050
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351497740255465212, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
+      propertyPath: backMagnification
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7483524461327812524, guid: e4bc9cc06863c8540ba3fdbafcf173a7, type: 3}
       propertyPath: m_Range
