@@ -28,10 +28,7 @@ public class PlayerMoveScript : MonoBehaviour
 
     void Start()
     {
-        //マウスカーソルを非表示
-        Cursor.visible = false;
-        //マウスカーソルを固定
-        Cursor.lockState = CursorLockMode.Locked;
+        
     }
 
     private void FixedUpdate()
@@ -79,12 +76,6 @@ public class PlayerMoveScript : MonoBehaviour
         {
             playerRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             playerAnimator.SetBool("isJump",true);
-        }
-
-        float MouseX = Input.GetAxis("Mouse X");
-        if(Mathf.Abs(MouseX) > 0.001f)
-        {
-            transform.RotateAround(transform.position, Vector3.up, MouseX);
         }
     }
 
